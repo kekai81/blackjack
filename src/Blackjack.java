@@ -70,7 +70,7 @@ public class Blackjack extends JFrame implements ActionListener
     }
     private void startFrame()
     {
-        startFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("cards/10.png"));
+        startFrame.setIconImage(getToolkit().getImage(getClass().getResource("cards/10.png")));
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         betPanel.setLayout(new BoxLayout(betPanel, BoxLayout.PAGE_AXIS));
@@ -102,7 +102,7 @@ public class Blackjack extends JFrame implements ActionListener
     private void startGame()
     {
         JFrame tableFrame = new JFrame("BlackJack");
-        tableFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("cards/10.png"));
+        tableFrame.setIconImage(getToolkit().getImage(getClass().getResource("cards/10.png")));
         tableFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         startFrame.dispose();
@@ -156,21 +156,21 @@ public class Blackjack extends JFrame implements ActionListener
     private void hitPlayer()
     {
         Card newCard = player.dealTo(deck.dealFrom());
-        playerPanel.add(new JLabel(new ImageIcon("cards/" + newCard.toString())));
+        playerPanel.add(new JLabel(new ImageIcon(getToolkit().getImage(getClass().getResource("cards/" + newCard.toString())))));
         playerPanel.updateUI();
     }
 
     private void hitDealerDown()
     {
         Card newCard = dealer.dealTo(deck.dealFrom());
-        dealerPanel.add(new JLabel(new ImageIcon("cards/b2fv.png")));
+        dealerPanel.add(new JLabel(new ImageIcon(getToolkit().getImage(getClass().getResource("cards/b2fv.png")))));
         dealerPanel.updateUI();
     }
 
     private void hitDealer()
     {
         Card newCard = dealer.dealTo(deck.dealFrom());
-        dealerPanel.add(new JLabel(new ImageIcon("cards/" + newCard.toString())));
+        dealerPanel.add(new JLabel(new ImageIcon(getToolkit().getImage(getClass().getResource("cards/" + newCard.toString())))));
         dealerPanel.updateUI();
     }
 
@@ -203,7 +203,7 @@ public class Blackjack extends JFrame implements ActionListener
         dealerPanel.add(dealerLabel);
         for (int i = 0; i < dealer.inHand(); i++)
         {
-            dealerPanel.add(new JLabel(new ImageIcon("cards/" + dealer.cards[i].toString())));
+            dealerPanel.add(new JLabel(new ImageIcon(getToolkit().getImage(getClass().getResource("cards/" + dealer.cards[i].toString())))));
         }
         if (player.value() > 21)
         {
@@ -224,7 +224,7 @@ public class Blackjack extends JFrame implements ActionListener
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
             playerWinnings = betAmount;
-        } else if ((dealer.value() != player.value()) && (player.inHand() == 2 && player.value() ==21))
+        } else if ((dealer.value() != player.value()) && (player.inHand() == 2 && player.value() == 21))
         {
             winStatus.setText("Natural Blackjack - Player Wins");
             dealerHand.setText("Dealer Hand: " + dealer.value());
@@ -320,7 +320,6 @@ public class Blackjack extends JFrame implements ActionListener
                 dealButton.setEnabled(false);
             }
         }
-
         if (e.getSource() == stayButton)
         {
             while (dealer.value() < 17 || player.value() > dealer.value())
@@ -343,7 +342,6 @@ public class Blackjack extends JFrame implements ActionListener
             System.exit(0);
         }
     }
-
     public static void main(String[] args)
     {
         new Blackjack();
