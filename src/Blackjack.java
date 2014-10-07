@@ -1,3 +1,5 @@
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -28,7 +30,6 @@ public class Blackjack extends JFrame implements ActionListener
     private JLabel betLabel = new JLabel("Please Select a Bet Amount To Place");
     private JLabel decksLabel = new JLabel("Please Select The number Of Decks you would like to Use");
 
-    private JLabel welcomeLabel = new JLabel("Welcome to the game of Blackjack!");
     private JLabel winStatus = new JLabel(" ");
     private JLabel playerHand = new JLabel(" ");
     private JLabel dealerHand = new JLabel(" ");
@@ -36,7 +37,6 @@ public class Blackjack extends JFrame implements ActionListener
     private JLabel playerBet = new JLabel("Player Bet:");
     private JLabel dealerLabel = new JLabel("Dealer:");
     private JLabel betResult = new JLabel(" ");
-    private JLabel endLabel = new JLabel("Game Over, Please select 'New Game' or 'Exit'");
 
     JPanel playerPanel = new JPanel();
     JPanel dealerPanel = new JPanel();
@@ -63,7 +63,6 @@ public class Blackjack extends JFrame implements ActionListener
         dealerHand.setText(" ");
         winStatus.setText(" ");
         betResult.setText(" ");
-        endLabel.setVisible(false);
         startFrame();
     }
     private void startFrame()
@@ -73,9 +72,6 @@ public class Blackjack extends JFrame implements ActionListener
 
         betPanel.setLayout(new BoxLayout(betPanel, BoxLayout.PAGE_AXIS));
         betPanel.add(Box.createVerticalGlue());
-        welcomeLabel.setHorizontalTextPosition(JLabel.CENTER);
-        welcomeLabel.setFont(new Font(welcomeLabel.getName(), Font.PLAIN, 20));
-        betPanel.add(welcomeLabel);
         betPanel.add(betLabel);
         betPanel.add(betButton);
 
@@ -94,7 +90,7 @@ public class Blackjack extends JFrame implements ActionListener
         startFrame.add(betPanel, BorderLayout.NORTH);
         startFrame.add(decksPanel, BorderLayout.SOUTH);
         startFrame.repaint();
-        startFrame.setSize(360, 150);
+        startFrame.setSize(300, 150);
         startFrame.setVisible(true);
     }
     private void startGame()
@@ -105,6 +101,17 @@ public class Blackjack extends JFrame implements ActionListener
 
         startFrame.dispose();
 
+        buttonsPanel.add(hitButton);
+        buttonsPanel.add(stayButton);
+        buttonsPanel.add(dealButton);
+
+        statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS));
+        statusPanel.add(Box.createVerticalGlue());
+        resultPanel.add(winStatus);
+        statusPanel.add(playerHand);
+        statusPanel.add(dealerHand);
+        statusPanel.add(playerBet);
+
         hitButton.addActionListener(this);
         stayButton.addActionListener(this);
         dealButton.addActionListener(this);
@@ -114,41 +121,21 @@ public class Blackjack extends JFrame implements ActionListener
         dealButton.setEnabled(true);
 
         dealerPanel.setBackground(Color.GREEN);
+
         playerPanel.setBackground(Color.GREEN);
 
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
-        buttonsPanel.add(Box.createHorizontalGlue());
-        buttonsPanel.add(hitButton);
-        buttonsPanel.add(stayButton);
-        buttonsPanel.add(dealButton);
         buttonsPanel.setBackground(Color.GREEN);
-
-        statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS));
-        statusPanel.add(Box.createVerticalGlue());
-        statusPanel.add(playerHand);
-        statusPanel.add(dealerHand);
-        statusPanel.add(playerBet);
         statusPanel.setBackground(Color.GREEN);
-
-        resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.PAGE_AXIS));
-        resultPanel.add(Box.createVerticalGlue());
-        winStatus.setFont(new Font(winStatus.getName(), Font.PLAIN, 64));
-        betResult.setFont(new Font(betResult.getName(), Font.PLAIN, 32));
-        endLabel.setFont(new Font(endLabel.getName(), Font.PLAIN, 20));
-        endLabel.setVisible(false);
-        resultPanel.add(betResult);
-        resultPanel.add(winStatus);
-        resultPanel.add(endLabel);
-        resultPanel.add(buttonsPanel);
         resultPanel.setBackground(Color.GREEN);
 
         tableFrame.setLayout(new BorderLayout());
         tableFrame.add(dealerPanel, BorderLayout.NORTH);
-        tableFrame.add(playerPanel, BorderLayout.SOUTH);
-        tableFrame.add(resultPanel, BorderLayout.CENTER);
+        tableFrame.add(playerPanel, BorderLayout.CENTER);
+        tableFrame.add(buttonsPanel, BorderLayout.SOUTH);
+        tableFrame.add(resultPanel, BorderLayout.EAST);
         tableFrame.add(statusPanel, BorderLayout.WEST);
         tableFrame.repaint();
-        tableFrame.setSize(800, 500);
+        tableFrame.setSize(600, 600);
         tableFrame.setVisible(true);
     }
     private void hitPlayer()
@@ -245,6 +232,7 @@ public class Blackjack extends JFrame implements ActionListener
     }
     public void end()
     {
+        statusPanel.add(betResult);
         betResult.setText("Player Winnings: $" + playerWinnings);
         hitButton.setEnabled(false);
         stayButton.setEnabled(false);
@@ -253,7 +241,6 @@ public class Blackjack extends JFrame implements ActionListener
         exitButton.addActionListener(this);
         buttonsPanel.add(newGameButton);
         buttonsPanel.add(exitButton);
-        endLabel.setVisible(true);
         newGameButton.setEnabled(true);
         exitButton.setEnabled(true);
         tableFrame.repaint();
@@ -315,7 +302,7 @@ public class Blackjack extends JFrame implements ActionListener
                 checkWinner();
                 hitButton.setEnabled(false);
                 stayButton.setEnabled(false);
-                dealButton.setEnabled(false);
+                dealButton.setEnabled(true);
             }
         }
 
@@ -328,7 +315,7 @@ public class Blackjack extends JFrame implements ActionListener
             checkWinner();
             hitButton.setEnabled(false);
             stayButton.setEnabled(false);
-            dealButton.setEnabled(false);
+            dealButton.setEnabled(true);
         }
         if (e.getSource() == newGameButton)
         {
