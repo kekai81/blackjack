@@ -199,6 +199,7 @@ public class Blackjack extends JFrame implements ActionListener
         hitPlayer();
         hitDealer();
         playerHand.setText("Player Hand: " + player.value());
+
     }
 
     private void checkWinner()
@@ -242,7 +243,7 @@ public class Blackjack extends JFrame implements ActionListener
             // Because each casino is slightly different, and I want to keep the player amount field using an integer,
             // I'm just going to award our player 2x their bet for a blackjack. ~ethan
             player.addMoney(betAmount*2);
-            playerWinnings = betAmount;
+            playerWinnings = betAmount*2;
         } else if (dealer.value() < player.value())
         {
             winStatus.setText("Player Wins");
