@@ -36,6 +36,7 @@ public class Blackjack extends JFrame implements ActionListener
     private JLabel dealerHand = new JLabel(" ");
     private JLabel playerLabel = new JLabel("Player:");
     private JLabel playerBet = new JLabel("Player Bet:");
+    private JLabel playerMoney = new JLabel("Player Money:");
     private JLabel dealerLabel = new JLabel("Dealer:");
     private JLabel betResult = new JLabel(" ");
     private JLabel endLabel = new JLabel("Game Over, Please select 'New Game' or 'Exit'");
@@ -132,6 +133,7 @@ public class Blackjack extends JFrame implements ActionListener
         statusPanel.add(playerHand);
         statusPanel.add(dealerHand);
         statusPanel.add(playerBet);
+        statusPanel.add(playerMoney);
         statusPanel.setBackground(felt);
 
         resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.PAGE_AXIS));
@@ -201,6 +203,8 @@ public class Blackjack extends JFrame implements ActionListener
 
     private void checkWinner()
     {
+        // I've edited this method to have the playerWinnings equal to the actual amount the house pays them, not the
+        // amount the house pays them plus their original wager. ~ethan
         dealerPanel.removeAll();
         dealerPanel.add(dealerLabel);
         for (int i = 0; i < dealer.inHand(); i++)
@@ -213,36 +217,45 @@ public class Blackjack extends JFrame implements ActionListener
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
             winStatus.setText("Player Busts");
+            // I've added these calls to the corresponding methods for adding and removing money from the Player's
+            // purse. ~ethan
+            player.removeMoney(betAmount);
             playerWinnings = 0;
         } else if (dealer.value() > 21)
         {
             winStatus.setText("Dealer Busts");
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
-            playerWinnings = betAmount*2;
+            player.addMoney(betAmount);
+            playerWinnings = betAmount;
         } else if (dealer.value() == player.value())
         {
             winStatus.setText("Push");
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
-            playerWinnings = betAmount;
+            playerWinnings = 0;
         } else if ((dealer.value() != player.value()) && (player.inHand() == 2 && player.value() == 21))
         {
             winStatus.setText("Natural Blackjack - Player Wins");
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
-            playerWinnings = betAmount*2.5;
+            // Because each casino is slightly different, and I want to keep the player amount field using an integer,
+            // I'm just going to award our player 2x their bet for a blackjack. ~ethan
+            player.addMoney(betAmount*2);
+            playerWinnings = betAmount;
         } else if (dealer.value() < player.value())
         {
             winStatus.setText("Player Wins");
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
+            player.addMoney(betAmount);
             playerWinnings = betAmount*2;
         } else
         {
             winStatus.setText("Dealer Wins");
             dealerHand.setText("Dealer Hand: " + dealer.value());
             playerHand.setText("Player Hand: " + player.value());
+            player.removeMoney(betAmount);
             playerWinnings = 0;
         }
         end();
@@ -250,6 +263,7 @@ public class Blackjack extends JFrame implements ActionListener
     public void end()
     {
         betResult.setText("Player Winnings: $" + playerWinnings);
+        playerMoney.setText("Player Money: $" + player.getMoney());
         hitButton.setEnabled(false);
         stayButton.setEnabled(false);
         dealButton.setEnabled(false);
@@ -274,6 +288,7 @@ public class Blackjack extends JFrame implements ActionListener
             betAmount = Integer.parseInt(betSubstring);
             betButton.setEnabled(false);
             playerBet.setText("Player Bet: $" + betAmount);
+            playerMoney.setText("Player Money: $" + player.getMoney());
             if(decksButton.isEnabled() == false && restarted == false)
             {
                 startGame();
@@ -291,6 +306,7 @@ public class Blackjack extends JFrame implements ActionListener
             decksAmount = Integer.parseInt((String)decksButton.getSelectedItem());
             decksButton.setEnabled(false);
             playerBet.setText("Player Bet: $" + betAmount);
+            playerMoney.setText("Player Money: $" + player.getMoney());
             if(betButton.isEnabled() == false && restarted == false)
             {
                 startGame();

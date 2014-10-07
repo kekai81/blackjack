@@ -7,7 +7,7 @@ public class Player {
 
     private int N = 0;
     private String name;
-    private int money = 500; //Give player 500 default dollars.
+    private int money = 500;
 
     public Player(String name) {
         this.name = name;
