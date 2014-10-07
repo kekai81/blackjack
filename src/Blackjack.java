@@ -115,22 +115,24 @@ public class Blackjack extends JFrame implements ActionListener
         stayButton.setEnabled(false);
         dealButton.setEnabled(true);
 
-        dealerPanel.setBackground(Color.GREEN);
-        playerPanel.setBackground(Color.GREEN);
+        Color felt = new Color(39, 119, 20);
+
+        dealerPanel.setBackground(felt);
+        playerPanel.setBackground(felt);
 
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
         buttonsPanel.add(Box.createHorizontalGlue());
         buttonsPanel.add(hitButton);
         buttonsPanel.add(stayButton);
         buttonsPanel.add(dealButton);
-        buttonsPanel.setBackground(Color.GREEN);
+        buttonsPanel.setBackground(felt);
 
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS));
         statusPanel.add(Box.createVerticalGlue());
         statusPanel.add(playerHand);
         statusPanel.add(dealerHand);
         statusPanel.add(playerBet);
-        statusPanel.setBackground(Color.GREEN);
+        statusPanel.setBackground(felt);
 
         resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.PAGE_AXIS));
         resultPanel.add(Box.createVerticalGlue());
@@ -142,7 +144,7 @@ public class Blackjack extends JFrame implements ActionListener
         resultPanel.add(winStatus);
         resultPanel.add(endLabel);
         resultPanel.add(buttonsPanel);
-        resultPanel.setBackground(Color.GREEN);
+        resultPanel.setBackground(felt);
 
         tableFrame.setLayout(new BorderLayout());
         tableFrame.add(dealerPanel, BorderLayout.NORTH);
