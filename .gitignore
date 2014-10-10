@@ -2,3 +2,5 @@
 META-INF/
 SER215-GroupProject.iml
 out/
+*.doc
+.DS_Store

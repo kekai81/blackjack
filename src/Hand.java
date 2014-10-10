@@ -33,7 +33,7 @@ public class Hand {
     // Creates a new Hand object and specifies the owner
     
     public Hand(String owner) {
-        cards = new ArrayList<>();
+        cards = new ArrayList<Card>();
         this.owner = owner;
     }
 
